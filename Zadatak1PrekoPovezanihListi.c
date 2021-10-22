@@ -17,6 +17,8 @@ int PrependList(Position head, char* ime, char* prezime, int god);
 int IsprintajListu(Position first);
 int UnosNakon(Position position, Position newperson);
 
+void FreeListe(Position head);
+
 Position NapraviOsobu(char* ime, char* prezime, int god);
 
 int main(int argc, char** argv)
@@ -57,6 +59,8 @@ int main(int argc, char** argv)
     }
 
     IsprintajListu(head.next);
+
+    FreeListe(&head);
 
     fclose(f);
     free(p);
@@ -115,5 +119,16 @@ Position NapraviOsobu(char* ime, char* prezime, int god){
     newperson->next=NULL;
 
     return newperson;
+
+}
+
+void FreeListe(Position head){
+    Position temporary;
+
+    while(head!=NULL){
+        temporary=head;
+        head=head->next;
+        free(temporary);
+    }
 
 }
