@@ -34,7 +34,7 @@ Pozicija PronadjiPrethodni(char* prezime, Pozicija pozicija);
 
 int main(int argc, char** argv) {
     //Sve ove test varijable su samo za testiranje. Vazno je samo provjeriti da funkcije rade
-
+    //Treba isto dodati provjeru funkcija. Ako nisu uradile da stopiraju program odmah.
     int testgod=1555;
     char testime[]="Abraham";
     char testprezime[]="Van Hellsing";
@@ -45,7 +45,6 @@ int main(int argc, char** argv) {
 
     osoba head = { .next = NULL,.ime = {0},.prezime = {0}, .god = 0 };
     Pozicija p = &head;
-    Pozicija temporary=NULL;
 
     UcitajListuIzDatoteke(p, nazivdatoteke);
 
@@ -58,7 +57,6 @@ int main(int argc, char** argv) {
 
     IsprintajListu(head.next);
     OslobodiMemoriju(p);
-    free(temporary);
     return 0;
 }
 //"Napravimo" novu osobu i posaljemo head i novu osobu u unosnakon tako da se dodaje na prvo mjesto liste.
@@ -226,9 +224,11 @@ int UnesiListuUDatoteku(Pozicija first, char* imedatoteke){
 }
 
 void OslobodiMemoriju(Pozicija head) {
-    Pozicija temp;
-
-    while (head != NULL) {
+    Pozicija temp=head->next;
+    if(NULL==temp->next){
+        free(temp);
+    }
+    else if (head != NULL) {
         temp = head;
         head = head->next;
         free(temp);
@@ -241,6 +241,8 @@ void SortirajPoPrezimenu(Pozicija head){
     Pozicija temp=NULL;
     Pozicija end=NULL;
     // Ne znam zasto ali ako pise malo i ide na kraj u prezimenu. Ako je veliko I radi sve uredu.
+    //strcmp(p->prezime, p->next->prezime)>0
+    // p->god>p->next->god
     while(head->next!=end){
         q=head;
         p=head->next;
