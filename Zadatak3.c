@@ -23,6 +23,7 @@ void Sortiraj(Pozicija head);
 void UpisUDatoteku(Pozicija first, char* imedatoteke, int* provjera);
 void IsprintajListu(Pozicija first);
 void OslobodiMemoriju(Pozicija head);
+void ProvjeriUneseneVarijable(char* ime, char* prezime ,int god, int* provjera);
 
 Pozicija GdjeJeZadnji(Pozicija pozicija);
 Pozicija NapraviOsobu(char* ime, char* prezime, int god);
@@ -31,12 +32,16 @@ Pozicija NadjiOsobu(char* prezime, Pozicija first);
 int main(int argc, char** argv)
 {
     //Varijable koje cemo ubaciti u listu
-    int testgod = 1555;
-    char testime[] = "Adam";
-    char testprezime[] = "Hellsing";
+    int testgod = 0;
+    char testime[MAX_CHAR] = {0};
+    char testprezime[MAX_CHAR] = {0};
     char unosnakonprezime[] = "Karamatic";
 
     int provjera = 0;
+    int i=0;
+
+    int nime=0;
+    int nprezime=0;
 
     char datotekazacitanje[MAX_CHAR] = "";
     char datotekazapisanje[MAX_CHAR]="";
@@ -69,16 +74,24 @@ int main(int argc, char** argv)
         printf("Sve u redu za sad\n");
     }
 
-    //Treba provest provjeru ali ne da mi se.
-    /*
     printf("Unesite ime:");
-    scanf(" %s", testime);
+    scanf(" %[^\n]s", testime);
     printf("Unesite prezime:");
-    scanf(" %s", testprezime);
+    scanf(" %[^\n]s", testprezime);
     printf("Unesite godiste:");
     scanf(" %d", &testgod);
-    */
-    UnosNakonOdredjenogPrezimena(head.next, unosnakonprezime, testime, testprezime, testgod, &provjera);
+
+    ProvjeriUneseneVarijable(testime, testprezime, testgod, &provjera);
+
+    if(provjera!=5)
+        {
+            UnosNakonOdredjenogPrezimena(head.next, unosnakonprezime, testime, testprezime, testgod, &provjera);
+        }
+    else
+        {
+            printf("Unesene varijable su grozne mislim kakva su ovo imena i godine\n");
+        }
+
     if (provjera == 3)
     {
         printf("Greska u funkciji UnosNakonOdredjenogPrezimena\n");
@@ -272,10 +285,36 @@ void OslobodiMemoriju(Pozicija head)
     if (NULL == temp->next) {
         free(temp);
     }
-    else if (head != NULL) {
-        temp = head;
-        head = head->next;
-        free(temp);
+    else{
+        while(head!= NULL) {
+            temp = head;
+            head = head->next;
+            free(temp);
+        }
+    }
+}
+
+void ProvjeriUneseneVarijable(char* ime, char* prezime ,int god, int* provjera)
+{
+    int i=0;
+    int n=0;
+    char buffer[MAX_SIZE]="";
+
+    strncat(buffer, ime, strlen(ime));
+    strncat(buffer, prezime, strlen(prezime));
+    //Ovaj n ne treba ali cu ga ostaviti
+    n=strlen(buffer);
+
+    for(i=0;i<n;i++)
+    {
+        if (isalpha(buffer[i]) == 0 )
+        {
+            *provjera=5;
+        }
+    }
+    if(god<0)
+    {
+        *provjera=5;
     }
 }
 
