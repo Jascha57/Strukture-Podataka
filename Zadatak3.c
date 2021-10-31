@@ -2,9 +2,17 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <stdbool.h>
 
 #define MAX_SIZE (1024)
 #define MAX_CHAR (100)
+
+//Mala slova su inicijali za imena funkcije
+#define GRESKAZAuiz (1)
+#define GRESKAZAunzm (2)
+#define GRESKAZApuv (3)
+#define GRESKAZAunop (4)
+#define GRESKAZAuud (5)
 
 struct _Osoba;
 typedef struct _Osoba* Pozicija;
@@ -22,8 +30,11 @@ void UnosNakonOdredjenogPrezimena(Pozicija first, char* trazenoprezime, char* im
 void Sortiraj(Pozicija head);
 void UpisUDatoteku(Pozicija first, char* imedatoteke, int* provjera);
 void IsprintajListu(Pozicija first);
+//Pretpostavljam da zbog sigurnosti, isto tako treba na vise mjesta osloboditi funkciju ali zasad ovaj komentar ostaje
 void OslobodiMemoriju(Pozicija head);
-void ProvjeriUneseneVarijable(char* ime, char* prezime ,int god, int* provjera);
+void ProvjeriUneseneVarijable(char* ime, char* prezime, int god, int* provjera);
+
+bool DaliJeStringIspravan(char* imeiprezime, int duljinastringa);
 
 Pozicija GdjeJeZadnji(Pozicija pozicija);
 Pozicija NapraviOsobu(char* ime, char* prezime, int god);
@@ -33,18 +44,15 @@ int main(int argc, char** argv)
 {
     //Varijable koje cemo ubaciti u listu
     int testgod = 0;
-    char testime[MAX_CHAR] = {0};
-    char testprezime[MAX_CHAR] = {0};
+    char testime[MAX_CHAR] = { 0 };
+    char testprezime[MAX_CHAR] = { 0 };
     char unosnakonprezime[] = "Karamatic";
 
     int provjera = 0;
-    int i=0;
-
-    int nime=0;
-    int nprezime=0;
+    int jelikorisnikupisaobrojeve = 0;
 
     char datotekazacitanje[MAX_CHAR] = "";
-    char datotekazapisanje[MAX_CHAR]="";
+    char datotekazapisanje[MAX_CHAR] = "";
     char txt[] = ".txt";
 
     osoba head = { .next = NULL,.ime = {0},.prezime = {0}, .god = 0 };
@@ -59,12 +67,12 @@ int main(int argc, char** argv)
     }
 
     UcitavanjeIzDatoteke(&head, datotekazacitanje, &provjera);
-    if (provjera == 1)
+    if (provjera == GRESKAZAuiz)
     {
         printf("Greska u funkciji UcitavanjeIzDatoteke\n");
         return 0;
     }
-    else if(provjera == 2)
+    else if (provjera == GRESKAZAunzm)
     {
         printf("Greska u funkciji UnosNaZadnjeMjesto\n");
         return 0;
@@ -79,40 +87,50 @@ int main(int argc, char** argv)
     printf("Unesite prezime:");
     scanf(" %[^\n]s", testprezime);
     printf("Unesite godiste:");
-    scanf(" %d", &testgod);
 
-    ProvjeriUneseneVarijable(testime, testprezime, testgod, &provjera);
-
-    if(provjera!=5)
+    jelikorisnikupisaobrojeve = scanf("%d", &testgod);
+    //Osiguranje da korisnik ne uspije upisivat tip stringa za godine.
+    //Imamo 2 scenarija
+    //1.Ako korisnik pocme sa slovom isprintat ce "mislio si da si pametan i resetirati"
+    //buffer pa da naciv datoteke za upisivanje ne bude ostatak smeca sto je upisano
+    //2.Ako korisnik pocme sa brojevima to ce se upisati kao god rodjenja i nastavljamo sa  programom
+    if (jelikorisnikupisaobrojeve == 0)
+    {
+        printf("Mislio si da si pametan\n");
+        fseek(stdin, 0, SEEK_END);
+    }
+    else
+    {
+        //Ova funkcija se moze zamijeniti sa boolovom funkcijom koju sam napravio
+        ProvjeriUneseneVarijable(testime, testprezime, testgod, &provjera);
+        if(provjera==GRESKAZApuv)
+        {
+            printf("Unesene varijable su glupe\n");
+        }
+        else
         {
             UnosNakonOdredjenogPrezimena(head.next, unosnakonprezime, testime, testprezime, testgod, &provjera);
         }
-    else
-        {
-            printf("Unesene varijable su grozne mislim kakva su ovo imena i godine\n");
-        }
+    }
 
-    if (provjera == 3)
+    //Resetiranje buffera tako da korisnik moze upisati ime datoteke za upisivanje
+    fseek(stdin, 0, SEEK_END);
+    if (provjera == GRESKAZAunop)
     {
         printf("Greska u funkciji UnosNakonOdredjenogPrezimena\n");
         return 0;
     }
-
+    //Sve ovo dolje radi kako treba koliko sam provjerio.
     Sortiraj(&head);
 
     printf("Unesite ime datoteke u koju zelite upisati listu:");
-    if (scanf(" %s", datotekazapisanje) != 1) {
-        printf("Greska upisivanja ime datoteke za pisanje\n");
-        return 0;
-    }
-    else {
-        strncat(datotekazapisanje, txt, 4);
-    }
+    scanf(" %s", datotekazapisanje);
+    strncat(datotekazapisanje, txt, strlen(txt));
 
     UpisUDatoteku(head.next, datotekazapisanje, &provjera);
-    if (provjera == 4)
+    if (provjera == GRESKAZAuud)
     {
-        printf("Greska u funkciji UpisiUListu\n");
+        printf("Greska u funkciji UpisiUDatoteku\n");
         return 0;
     }
 
@@ -128,10 +146,7 @@ void UcitavanjeIzDatoteke(Pozicija head, char* imedatoteke, int* provjera)
     char tempime[MAX_CHAR] = "";
     char tempprezime[MAX_CHAR] = "";
     int tempgod = 0;
-    //Ovo je rekao profesor da koristimo i znam da daje duljinu charova u stringu ali ne znam sa sto to koristimo
-    int i = 0;
     int n = 0;
-    int m = 0;
     //Koristi se za citanje liste
     char buffer[MAX_SIZE] = "";
     char c;
@@ -140,37 +155,27 @@ void UcitavanjeIzDatoteke(Pozicija head, char* imedatoteke, int* provjera)
 
     f = fopen(imedatoteke, "r");
     if (f == NULL) {
-        *provjera = 1;
+        *provjera = GRESKAZAuiz;
     }
     else {
         c = fgetc(f);
         if (c == EOF)
         {
             printf("Datoteka je prazna\n");
-            *provjera = 1;
+            *provjera = GRESKAZAuiz;
         }
         else
         {
             ungetc(c, f);
         }
-        while (!feof(f) && *provjera==0)
+        while (!feof(f) && *provjera == 0)
         {
             fgets(buffer, MAX_SIZE, f);
-            if (sscanf(buffer, "%s %s %n %d", tempime, tempprezime, &n, &tempgod) !=EOF && tempgod != 0)
-            {
-                for (i = 0; i < n; i++)
+            if (sscanf(buffer, "%s%s%n %d", tempime, tempprezime, &n, &tempgod) != EOF && tempgod != 0) {
+                if (DaliJeStringIspravan(buffer, n - 1) == 1)
                 {
-                    if (isspace(buffer[i])==0 && isalpha(buffer[i]) != 0 )
-                    {
-                        m++;
-                    }
-                }
-                if (m == n - 2)
-                {
-                    //Ovdje treba osigurat napraviti novu osobu. Ovdje samo oni koji ispunjavaju uvjete
                     UnosNaZadnjeMjesto(head, tempime, tempprezime, tempgod, provjera);
                 }
-                m = 0;
                 tempgod = 0;
             }
         }
@@ -187,7 +192,7 @@ void UnosNaZadnjeMjesto(Pozicija head, char* ime, char* prezime, int god, int* p
 
     if (novaosoba == NULL)
     {
-        *provjera = 2;
+        *provjera = GRESKAZAunzm;
     }
     else
     {
@@ -212,7 +217,7 @@ void UnosNakonOdredjenogPrezimena(Pozicija first, char* trazenoprezime, char* im
     temp = NadjiOsobu(trazenoprezime, first);
 
     if (NULL == temp || NULL == novaosoba) {
-        *provjera = 3;
+        *provjera = GRESKAZAunop;
     }
     else
     {
@@ -256,15 +261,14 @@ void UpisUDatoteku(Pozicija first, char* imedatoteke, int* provjera)
     f = fopen(imedatoteke, "w");
 
     if (NULL == f) {
-        *provjera=4;
+        *provjera = GRESKAZAuud;
     }
     else
     {
-        while (temp->next != NULL) {
+        while (temp != NULL) {
             fprintf(f, "%s %s %d\n", temp->ime, temp->prezime, temp->god);
             temp = temp->next;
         }
-        fprintf(f, "%s %s %d\n", temp->ime, temp->prezime, temp->god);
         fclose(f);
     }
 }
@@ -285,37 +289,53 @@ void OslobodiMemoriju(Pozicija head)
     if (NULL == temp->next) {
         free(temp);
     }
-    else{
-        while(head!= NULL) {
-            temp = head;
-            head = head->next;
+    else {
+        while (head->next!=NULL) {
+            temp = head->next;
+            head->next = temp->next;
             free(temp);
         }
     }
 }
 
-void ProvjeriUneseneVarijable(char* ime, char* prezime ,int god, int* provjera)
+void ProvjeriUneseneVarijable(char* ime, char* prezime, int god, int* provjera)
 {
-    int i=0;
-    int n=0;
-    char buffer[MAX_SIZE]="";
+    int i = 0;
+    int n = 0;
+    char buffer[MAX_SIZE] = "";
 
     strncat(buffer, ime, strlen(ime));
     strncat(buffer, prezime, strlen(prezime));
     //Ovaj n ne treba ali cu ga ostaviti
-    n=strlen(buffer);
+    n = strlen(buffer);
 
-    for(i=0;i<n;i++)
+    for (i = 0; i < n; i++)
     {
-        if (isalpha(buffer[i]) == 0 )
+        if (isalpha(buffer[i]) == 0)
         {
-            *provjera=5;
+            *provjera = GRESKAZApuv;
         }
     }
-    if(god<0)
+    if (god < 0)
     {
-        *provjera=5;
+        *provjera = GRESKAZApuv;
     }
+}
+
+bool DaliJeStringIspravan(char* imeiprezime, int duljinastringa)
+{
+    int brojslovaustringu = 0;
+    int i = 0;
+
+    for (i = 0; i <= duljinastringa; i++)
+    {
+        if (isalpha(imeiprezime[i]) != 0)
+        {
+            brojslovaustringu++;
+        }
+    }
+
+    return duljinastringa == brojslovaustringu;
 }
 
 Pozicija GdjeJeZadnji(Pozicija pozicija)
