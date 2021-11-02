@@ -27,7 +27,9 @@ void UcitavanjeIzDatoteke(Pozicija head, char* imedatoteke, int* provjera);
 void UnosNaZadnjeMjesto(Pozicija head, char* ime, char* prezime, int god, int* provjera);
 void UnosNakon(Pozicija pozicija, Pozicija novaosoba);
 void UnosNakonOdredjenogPrezimena(Pozicija first, char* trazenoprezime, char* ime, char* prezime, int god, int* provjera);
-void Sortiraj(Pozicija head);
+void SortirajPoPrezimenu(Pozicija head);
+void SortirajPoImenu(Pozicija head);
+void SortirajPoGod(Pozicija head);
 void UpisUDatoteku(Pozicija first, char* imedatoteke, int* provjera);
 void IsprintajListu(Pozicija first);
 //Pretpostavljam da zbog sigurnosti, isto tako treba na vise mjesta osloboditi funkciju ali zasad ovaj komentar ostaje
@@ -50,6 +52,7 @@ int main(int argc, char** argv)
 
     int provjera = 0;
     int jelikorisnikupisaobrojeve = 0;
+    int izbor = 0;
 
     char datotekazacitanje[MAX_CHAR] = "";
     char datotekazapisanje[MAX_CHAR] = "";
@@ -120,8 +123,32 @@ int main(int argc, char** argv)
         printf("Greska u funkciji UnosNakonOdredjenogPrezimena\n");
         return 0;
     }
-    //Sve ovo dolje radi kako treba koliko sam provjerio.
-    Sortiraj(&head);
+
+    do
+    {
+        printf("Opcije sortitanja\n");
+        printf("1. Po imenu\n");
+        printf("2. Po prezimenu\n");
+        printf("3. Po godini rodjenja\n");
+        scanf(" %d", &izbor);
+
+        switch(izbor)
+        {
+            case 1:
+                SortirajPoImenu(&head);
+                break;
+            case 2:
+                SortirajPoPrezimenu(&head);
+                break;
+            case 3:
+                SortirajPoGod(&head);
+                break;
+            default:
+                printf("Niste upisali broj\n");
+                fseek(stdin, 0, SEEK_END);
+                break;
+        }
+    }while(izbor!=1 && izbor != 2 && izbor!=3);
 
     printf("Unesite ime datoteke u koju zelite upisati listu:");
     scanf(" %s", datotekazapisanje);
@@ -225,7 +252,7 @@ void UnosNakonOdredjenogPrezimena(Pozicija first, char* trazenoprezime, char* im
     }
 }
 
-void Sortiraj(Pozicija head)
+void SortirajPoPrezimenu(Pozicija head)
 {
     Pozicija p = NULL;
     Pozicija q = NULL;
@@ -240,7 +267,57 @@ void Sortiraj(Pozicija head)
         q = head;
         p = head->next;
         while (p->next != end) {
-            if (strcmp(p->prezime, p->next->prezime) > 0) {
+            if (strcmpi(p->prezime, p->next->prezime) > 0) {
+                temp = p->next;
+                q->next = temp;
+                p->next = temp->next;
+                temp->next = p;
+                p = temp;
+            }
+            q = p;
+            p = p->next;
+        }
+        end = p;
+    }
+}
+
+void SortirajPoGod(Pozicija head)
+{
+    Pozicija p = NULL;
+    Pozicija q = NULL;
+    Pozicija temp = NULL;
+    Pozicija end = NULL;
+
+    while (head->next != end) {
+        q = head;
+        p = head->next;
+        while (p->next != end) {
+            if (p->god>p->next->god) {
+                temp = p->next;
+                q->next = temp;
+                p->next = temp->next;
+                temp->next = p;
+                p = temp;
+            }
+            q = p;
+            p = p->next;
+        }
+        end = p;
+    }
+}
+
+void SortirajPoImenu(Pozicija head)
+{
+    Pozicija p = NULL;
+    Pozicija q = NULL;
+    Pozicija temp = NULL;
+    Pozicija end = NULL;
+
+    while (head->next != end) {
+        q = head;
+        p = head->next;
+        while (p->next != end) {
+            if (strcmpi(p->ime, p->next->ime) > 0) {
                 temp = p->next;
                 q->next = temp;
                 p->next = temp->next;
