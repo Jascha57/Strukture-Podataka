@@ -41,6 +41,7 @@ int CitanjeArtikalaIzDatoteke(PositionR head);
 int Info(PositionR head);
 
 void UnosUListu(PositionR head, PositionR temp);
+void UnosUListuSortirano(PositionR head, PositionR temp);
 void UnosUListuArtikala(PositionA head, PositionA newArtikal);
 void IspisiRacune(PositionR first);
 void IspisiArtikle(PositionA first);
@@ -55,7 +56,6 @@ int main()
 	racun head = { .ImeRacuna = "", .God = 0, .Mjesec = 0, .Dan = 0, .nextR = NULL, .headAR.Ime = "", .headAR.Kolicina = 0, .headAR.Cijena = 0 };
 
 	CitanjeRacunaIzDatoteke(&head, imedatoteke);
-	CitanjeArtikalaIzDatoteke(&head);
 
 	IspisiRacune(head.nextR);
 
@@ -68,6 +68,7 @@ int main()
 
 /// <summary>
 /// Cita racune, datume i pravi listu
+/// 2.0 verzija odmah cita artikle jer sam naisao na problem u sortiranom unosu zato jer su svi datumi bili 0 pa nije sortiralo.
 /// </summary>
 /// <param name="head"></param>
 /// <param name="imedatoteke"></param>
@@ -91,7 +92,8 @@ int CitanjeRacunaIzDatoteke(PositionR head, char* imedatoteke)
 		fgets(buffer, MAX_SIZE, f);
 		sscanf(buffer, " %s", tempIme);
 		temp = CreateNewRacun(tempIme);
-		UnosUListu(head, temp);
+		CitanjeArtikalaIzDatoteke(temp);
+		UnosUListuSortirano(head, temp);
 	}
 
 	fclose(f);
@@ -99,6 +101,7 @@ int CitanjeRacunaIzDatoteke(PositionR head, char* imedatoteke)
 }
 /// <summary>
 /// Cita artikle iz datoteke. Ime datoteke je sadrzano u listi zbog lakseg koda, barem za mene.
+/// Pise da je head, ali je clan liste koji smo napravili i poslali u CitanjeRacunaIzDatoteke.
 /// </summary>
 /// <param name="head"></param>
 /// <returns></returns>
@@ -114,35 +117,32 @@ int CitanjeArtikalaIzDatoteke(PositionR head)
 	char Pbuffer[MAX_SIZE] = "0";
 
 	FILE* f = NULL;
-	PositionR tempR = head->nextR;
 	PositionA tempAr = NULL;
-
-	while (tempR != NULL)
+	f = fopen(head->ImeRacuna, "r");
+	if (NULL == f)
 	{
-		f = fopen(tempR->ImeRacuna, "r");
-		if (NULL == f)
-		{
-			perror("Datoteka ne postoji\n");
-			return -1;
-		}
-		fgets(buffer, MAX_SIZE, f);
-		sscanf(buffer, " %d %d %d", &tempR->God, &tempR->Mjesec, &tempR->Dan);
-		while (!feof(f))
-		{
-			fgets(buffer, MAX_SIZE, f);
-			if (_strcmpi(buffer, Pbuffer) != 0)
-			{
-				sscanf(buffer, " %s %d %d", tempImeArtikla, &tempKolicina, &tempCijena);
-				tempAr = CreateNewArtikl(tempImeArtikla, tempKolicina, tempCijena);
-				UnosUListuArtikala(&tempR->headAR, tempAr);
-			}
-			strcpy(Pbuffer, buffer);
-		}
-		tempR = tempR->nextR;
-		fclose(f);
+		perror("Garbage\n");
+		return -1;
 	}
+
+	fgets(buffer, MAX_SIZE, f);
+	sscanf(buffer, " %d %d %d", &head->God, &head->Mjesec, &head->Dan);
+	while (!feof(f))
+	{
+		fgets(buffer, MAX_SIZE, f);
+		if (_strcmpi(buffer, Pbuffer) != 0)
+		{
+			sscanf(buffer, " %s %d %d", tempImeArtikla, &tempKolicina, &tempCijena);
+			tempAr = CreateNewArtikl(tempImeArtikla, tempKolicina, tempCijena);
+			UnosUListuArtikala(&head->headAR, tempAr);
+		}
+		strcpy(Pbuffer, buffer);
+	}
+
+	fclose(f);
 	return 0;
 }
+
 /// <summary>
 /// Daje informacije koje trazi korisnik, treba nadograditi kod da ne puca ako je korisnik zao ali previse špageta bude.
 /// </summary>
@@ -210,6 +210,53 @@ void UnosUListu(PositionR head, PositionR temp)
 	temp->nextR = head->nextR;
 	head->nextR = temp;
 }
+
+void UnosUListuSortirano(PositionR head, PositionR temp)
+{
+	//Koristimo ovaj int kako bi rekli element je upisan, moze se zavrsiti funkcija.
+	int Provjera = 0;
+	PositionR p = head->nextR;
+	while (head->nextR != NULL && p!=NULL && Provjera == 0)
+	{
+		if (temp->God < p->God)
+		{
+			temp->nextR = head->nextR;
+			head->nextR = temp;
+			Provjera++;
+		}
+		else if (temp->God == p->God)
+		{
+			if (temp->Mjesec < p->Mjesec)
+			{
+				temp->nextR = head->nextR;
+				head->nextR = temp;
+				Provjera++;
+			}
+			else if (temp->Mjesec == p->Mjesec)
+			{
+				if (temp->Dan < p->Dan)
+				{
+					temp->nextR = head->nextR;
+					head->nextR = temp;
+					Provjera++;
+				}
+				else if (temp->Dan == p->Dan)
+				{
+					temp->nextR = head->nextR;
+					head->nextR = temp;
+					Provjera++;
+				}
+			}
+		}
+		p = p->nextR;
+		head = head->nextR;
+	}
+	if (head->nextR == NULL && Provjera == 0)
+	{
+		head->nextR = temp;
+	}
+}
+
 /// <summary>
 /// Ovo je sortirani unos artikala iako naslov funkcije ne kaze to.
 /// </summary>
