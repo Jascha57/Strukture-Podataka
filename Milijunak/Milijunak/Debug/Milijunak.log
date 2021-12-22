@@ -1,3 +1,2 @@
 ﻿  main.c
-C:\Users\Name\source\repos\Milijunak\Milijunak\main.c(80,18): warning C4244: 'function': conversion from 'time_t' to 'unsigned int', possible loss of data
   Milijunak.vcxproj -> C:\Users\Name\source\repos\Milijunak\Debug\Milijunak.exe

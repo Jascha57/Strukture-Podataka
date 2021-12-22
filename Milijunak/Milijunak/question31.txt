@@ -1,0 +1,6 @@
+What are arrays and linked lists?
+ADT
+APT
+ADT
+AST
+AAT

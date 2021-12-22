@@ -6,9 +6,11 @@
 #include <ctype.h>
 
 //Progress so far
-//Only level 1 is working. The others are just a variation on level 1 with different ranges so it should not be difficult to implement
-//This is only the prototype
-//The game ends rather unceremoniously so need to add some flare maybe with pauses and such
+//level 4 is still not done. Need to compose more questions.
+//Still need more razzle dazzle and to add joker compatibility.
+//Maybe the higher the level, the bigger the chance that the joker will fail but that might be not fun enough.
+//Oh yeah and impliment the leaderboard. Maybe also make a score text file that at the start reads and forms a list then writes everything back
+//So that we dont have to make a new list every time, or just append depending of preference.
 
 //Magic numbers for different lengths
 #define LEVEL_ONE (15)
@@ -20,6 +22,7 @@
 #define CHAR_FOR_OPTIONS (4)
 #define ARRAY_FOR_ANSWERS (4)
 #define SCORE_BOARD (16)
+#define NUMBER_OF_QUESTIONS (15)
 
 //Errors
 #define SCANF_NOT_WORKING (1)
@@ -64,6 +67,7 @@ int GameLogic(PositionQ first, PositionL headLB);
 void ListInput(PositionQ headQ, PositionQ newQuestion);
 void FreeQuestionsList(PositionQ headQ);
 void PrintList(PositionQ first);
+void DelayMessage(int number_of_seconds);
 
 PositionQ CreateNewQuestion();
 
@@ -81,12 +85,12 @@ int main()
 	questions headQ = { .A = "", .B = "", .C = "", .D = "", .Question= "", .Answer = "", .next = NULL };
 	leaderboard headLB = { .Score = 0,.Name = "", .next = NULL };
 	//Make sure the RNG is actually random
-	srand(time(NULL));
+	srand((unsigned)time(NULL));
 
 	do
 	{
 		printf("Would you like to play Who Wants To Be A Milionare?\n");
-		//User inputs a string that then cleans itself up. It will still do the right thing if yes or no is follower by a sequence of letters
+		//User inputs a string that then cleans itself up. It will still do the right thing if yes or no is followed by a sequence of letters
 		//But much better that the cursed scanf()
 		fgets(UserChoice, CHAR_FOR_OPTIONS, stdin);
 		//Check to see if there is anything after UserChoice has been read. If there is, make sure it does not interfere with the program
@@ -123,8 +127,6 @@ int main()
 
 int GameMenu(PositionQ headQ, PositionL headLB)
 {
-	//Level choice intiger
-	//int Level = 0;
 	//Integer for displaying different message based on if the user inputed a wrong input or something
 	int Message = 0;
 	//Integer for breaking the while loop for switch case
@@ -161,9 +163,17 @@ int GameMenu(PositionQ headQ, PositionL headLB)
 			WhileCheck++;
 			break;
 		case '2':
+			GameStartLevel2(headQ, headLB);
+			//This is just to check that the list is good
+			//PrintList(headQ->next);
+			FreeQuestionsList(headQ);
 			WhileCheck++;
 			break;
 		case '3':
+			GameStartLevel3(headQ, headLB);
+			//This is just to check that the list is good
+			//PrintList(headQ->next);
+			FreeQuestionsList(headQ);
 			WhileCheck++;
 			break;
 		case '4':
@@ -204,7 +214,7 @@ int GameStartLevel1(PositionQ headQ, PositionL headLB)
 		OrderOfQuestions[randomIndex] = temp;
 	}
 	//Opens the question folder and inputs the data into the structure
-	for (int i = 0; i < LEVEL_ONE; i++)
+	for (int i = 0; i < NUMBER_OF_QUESTIONS; i++)
 	{
 		//"Creates" the file name
 		sprintf(Buffer, "question%d.txt", OrderOfQuestions[i]);
@@ -217,10 +227,69 @@ int GameStartLevel1(PositionQ headQ, PositionL headLB)
 }
 int GameStartLevel2(PositionQ headQ, PositionL headLB)
 {
+	//Intiger to make sure the game runs smoothly
+	int GameCheck = 0;
+	//Array of numbers to be randomized and the order to choose the questions in
+	int OrderOfQuestions[LEVEL_TWO];
+	//Buffer that is going to contain the name of the file that has the question data
+	char Buffer[MAX_LINE] = "";
+
+	//Initialize the array
+	for (int i = 0; i < LEVEL_TWO; i++)
+	{
+		OrderOfQuestions[i] = i;
+	}
+	//Randomize the array
+	for (int i = 0; i < LEVEL_TWO; i++)
+	{
+		int temp = OrderOfQuestions[i];
+		int randomIndex = rand() % LEVEL_TWO;
+		OrderOfQuestions[i] = OrderOfQuestions[randomIndex];
+		OrderOfQuestions[randomIndex] = temp;
+	}
+	//Opens the question folder and inputs the data into the structure
+	for (int i = 0; i < NUMBER_OF_QUESTIONS; i++)
+	{
+		//"Creates" the file name
+		sprintf(Buffer, "question%d.txt", OrderOfQuestions[i]);
+		ReadQuestionFromFile(headQ, Buffer);
+	}
+
+	GameCheck = GameLogic(headQ->next, headLB);
+
 	return 0;
 }
 int GameStartLevel3(PositionQ headQ, PositionL headLB)
 {
+	//Intiger to make sure the game runs smoothly
+	int GameCheck = 0;
+	//Array of numbers to be randomized and the order to choose the questions in
+	int OrderOfQuestions[LEVEL_THREE];
+	//Buffer that is going to contain the name of the file that has the question data
+	char Buffer[MAX_LINE] = "";
+
+	//Initialize the array
+	for (int i = 0; i < LEVEL_THREE; i++)
+	{
+		OrderOfQuestions[i] = i;
+	}
+	//Randomize the array
+	for (int i = 0; i < LEVEL_THREE; i++)
+	{
+		int temp = OrderOfQuestions[i];
+		int randomIndex = rand() % LEVEL_THREE;
+		OrderOfQuestions[i] = OrderOfQuestions[randomIndex];
+		OrderOfQuestions[randomIndex] = temp;
+	}
+	//Opens the question folder and inputs the data into the structure
+	for (int i = 0; i < NUMBER_OF_QUESTIONS; i++)
+	{
+		//"Creates" the file name
+		sprintf(Buffer, "question%d.txt", OrderOfQuestions[i]);
+		ReadQuestionFromFile(headQ, Buffer);
+	}
+
+	GameCheck = GameLogic(headQ->next, headLB);
 	return 0;
 }
 int GameStartLevel4(PositionQ headQ, PositionL headLB)
@@ -230,7 +299,8 @@ int GameStartLevel4(PositionQ headQ, PositionL headLB)
 int ReadQuestionFromFile(PositionQ headQ, char* FileName)
 {
 	//Array to randomize the answer input
-	int AnswerOrder[ARRAY_FOR_ANSWERS] = {2,3,4,5};
+	//Made it static in hopes that it will remember the last randomizer and randomize that instead of the same order over and over again.
+	static int AnswerOrder[ARRAY_FOR_ANSWERS] = {2,3,4,5};
 	//Buffer to store the string and input it to the list
 	char Buffer[MAX_LINE] = "";
 	//New question list
@@ -327,13 +397,20 @@ int GameLogic(PositionQ first, PositionL headLB)
 
 		printf("=====================================================================\n");
 		printf("You currently have %d euros\n", UserScore);
+		DelayMessage(3);
 		printf("Here comes our %d. question\n", QuestionNumber);
 		printf("\n");
-		printf(" %s\n", first->Question);
-		printf("A: %s\n", first->A);
-		printf("B: %s\n", first->B);
-		printf("C: %s\n", first->C);
-		printf("D: %s\n", first->D);
+		DelayMessage(1);
+		printf("%s \n", first->Question);
+		DelayMessage(3);
+		printf("A: %s \n", first->A);
+		DelayMessage(3);
+		printf("B: %s \n", first->B);
+		DelayMessage(3);
+		printf("C: %s \n", first->C);
+		DelayMessage(3);
+		printf("D: %s \n", first->D);
+		DelayMessage(3);
 
 		if (MessageCheck == 0)
 		{
@@ -356,11 +433,25 @@ int GameLogic(PositionQ first, PositionL headLB)
 			case 'a':
 				if (_strcmpi(first->A, first->Answer) != 0)
 				{
+					printf(".");
+					DelayMessage(1);
+					printf(".");
+					DelayMessage(1);
+					printf(".\n");
+					DelayMessage(1);
+					printf("I am sorry but you are walking away with 0 euros. Try again.\n");
+					DelayMessage(1);
 					AnswerCheck++;
 					WhileCheck++;
 				}
 				else
 				{
+					printf(".");
+					DelayMessage(1);
+					printf(".");
+					DelayMessage(1);
+					printf(".\n");
+					DelayMessage(1);
 					printf("That is the correct answer. Congratulations on your %d. question\n", QuestionNumber);
 					UserScore = ScoreBoard[QuestionNumber];
 					WhileCheck++;
@@ -370,11 +461,25 @@ int GameLogic(PositionQ first, PositionL headLB)
 			case 'b':
 				if (_strcmpi(first->B, first->Answer) != 0)
 				{
+					printf(".");
+					DelayMessage(1);
+					printf(".");
+					DelayMessage(1);
+					printf(".\n");
+					DelayMessage(1);
+					printf("I am sorry but you are walking away with 0 euros. Try again.\n");
+					DelayMessage(1);
 					AnswerCheck++;
 					WhileCheck++;
 				}
 				else
 				{
+					printf(".");
+					DelayMessage(1);
+					printf(".");
+					DelayMessage(1);
+					printf(".\n");
+					DelayMessage(1);
 					printf("That is the correct answer. Congratulations on your %d. question\n", QuestionNumber);
 					UserScore = ScoreBoard[QuestionNumber];
 					WhileCheck++;
@@ -384,11 +489,25 @@ int GameLogic(PositionQ first, PositionL headLB)
 			case 'c':
 				if (_strcmpi(first->C, first->Answer) != 0)
 				{
+					printf(".");
+					DelayMessage(1);
+					printf(".");
+					DelayMessage(1);
+					printf(".\n");
+					DelayMessage(1);
+					printf("I am sorry but you are walking away with 0 euros. Try again.\n");
+					DelayMessage(1);
 					AnswerCheck++;
 					WhileCheck++;
 				}
 				else
 				{
+					printf(".");
+					DelayMessage(1);
+					printf(".");
+					DelayMessage(1);
+					printf(".\n");
+					DelayMessage(1);
 					printf("That is the correct answer. Congratulations on your %d. question\n", QuestionNumber);
 					UserScore = ScoreBoard[QuestionNumber];
 					WhileCheck++;
@@ -398,11 +517,25 @@ int GameLogic(PositionQ first, PositionL headLB)
 			case 'd':
 				if (_strcmpi(first->D, first->Answer) != 0)
 				{
+					printf(".");
+					DelayMessage(1);
+					printf(".");
+					DelayMessage(1);
+					printf(".\n");
+					DelayMessage(1);
+					printf("I am sorry but you are walking away with 0 euros. Try again.\n");
+					DelayMessage(1);
 					AnswerCheck++;
 					WhileCheck++;
 				}
 				else
 				{
+					printf(".");
+					DelayMessage(1);
+					printf(".");
+					DelayMessage(1);
+					printf(".\n");
+					DelayMessage(1);
 					printf("That is the correct answer. Congratulations on your %d. question\n", QuestionNumber);
 					UserScore = ScoreBoard[QuestionNumber];
 					WhileCheck++;
@@ -470,6 +603,16 @@ void PrintList(PositionQ first)
 		printf(" %s\n", first->D);
 		printf("=====================================================================\n");
 		first = first->next;
+	}
+}
+//Just for extra razzle dazzle
+void DelayMessage(int number_of_seconds)
+{
+	int mili_seconds = 1000 * number_of_seconds;
+	clock_t start_time = clock();
+	while (clock() < start_time + mili_seconds)
+	{
+		;
 	}
 }
 
