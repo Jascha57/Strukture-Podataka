@@ -1,0 +1,100 @@
+0: Who is the Disney character that is best known for a glass sliper?
+1: The hammer and sickle is one of the most recognisable symbols for what ideology?
+2: Which of these religious observances lasts for the shortest period of time?
+3: When was America discovered?
+4: What band sings the iconic song "Smoke On The Water"?
+5: Who directed "Inglorious Bastards"?
+6: Which of these characters is not Agatha Cristie's?
+7: What soccer player has the most amount of goals in their career?
+8: What e-mail service is owned by Microsoft?
+9: Who was the first woman to win The Nobel Prize?
+10: What planet is the hottest in terms of temperature?
+11: How many films did Sean Connery play James Bond in?
+12: In what US city is the Broadway located in?
+13: Which company owns Bugatti, Lamborghini. Audi, Porsche, and Ducati?
+14: Which two countries share the longest international border?
+15: Who said "I'm sorry dave I can't let you do that"?
+16: What show had it's finale shown at the Times Square in US?
+17: Which nationality was famous lover Casanova?
+18: How many seasons does Top Gear have?
+19: How many years did World War 1 last?
+20: Select All,Odaberi sve or...
+21: How many pawns are there at the start of a chess game?
+22: Which of these movies was NOT based on a true story?
+23: Who parted the Red Sea?
+24: What mythological beast is reborn from its own ashes?
+25: Which of the following is NOT a monotheistic religion?
+26: If you had "iritis", which part of the body would be affected?
+27: How many episodes does the original "Mr. Bean" have?
+28: What is another term for a gemstone?
+29: The first winner of the Miss World contest represented which country?
+30: Who is the writer of the original "Sherlock Holmes"?
+31: What are arrays and linked lists?
+32: "Little Russia" is a traditional name for which country?
+33: Which of these is a type of large mushroom?
+34: On which continent is Lake Maggiore?
+35: In which city was Abraham Lincoln assasssinated?
+36: Ricky Hatton is a famous name in which sport?
+37: What was the title of Robert De Niro's first film as a director?
+38: What city in the US is nicknamed "Sin City"?
+39: In what kind of restaurant is miso soup most likely to be served?
+40: Which of these is NOT a Bruce Lee movie?
+41: how many countries border Russia?
+42: The world's largest reptile is what kind of animal?
+43: In Tom And Jerry, what is the name of the intimidating dog with a red collar?
+44: "We are on a mission from God" is a quote from what movie?
+45: Which of these is the most sold book?
+46: Which of these Olympic swimmers won the most gold medals?
+47: Who has the most F1 Grand Prix wins?
+48: What is the maximum amount of points a player can get in snooker in one break?
+49: How many time zones are there in USA?
+50: What is the shortest war in history?
+51: Which of these is the highest mountain?
+52: King Charles I belonged to which royal house?
+53: What is the main diet of the American bald eagle?
+54: Who sang with Rod Stewart on the 1990 hit single "It Takes Two"?
+55: In Greek mythology, what was the name of the gods who were children of Uranus and Gaea?
+56: Which writer had the middle names Augustine Aloysius?
+57: Who played Marion Crane in the Alfred Hitchcock film "Psycho"
+58: Which of these books was partly written while the author was in prison?
+59: Which nationality was the scholar Erasmus?
+60: Which historical event is recorder on the Zapruder film?
+61: Which of these islands are not in the Pacific Ocean?
+62: In which city is Galileo Galilei Airport?
+63: Lake Louise and Fairveiw Mountain are tourist attractions in which country?
+64: Lucille Le Sueur was the real name of which actress*
+65: Greece achieved independence from which country in the 19th century?
+66: Which Shakespeare play features the line: "Slings and arrows of outrageous fortune"?
+67: The french cheese Roquefort is usually made from the milk of which animal?
+68: Which of these animals is classified as a "pinniped"?
+69: Which Australian state is known as the Garden State?
+70: Which body of water separates China and Korea?
+71: Who played Satan in the 1997 film "The Devil's Advocate"?
+72: "Recap" is normally used as a shortened form of which word?
+73: In which opera does the Queen of the Night appear?
+74: Which of these is a fear of beards?
+75: Which of these states of the USA has no Pacific coast?
+76: The Feast of the Assumption relates specifically to which person in the Bible?
+77: The Starbucks coffee company was founded in which US city?
+78: Albert Park is the setting for which F1 Grand Prix?
+79: Who coined the phrase "Let's get ready to rumble!"?
+80: "Gentlemen, you can't fight in here, this is the war room" is a quote from what movie?
+81: In what country is the oldest bridge located?
+82: How many years, according to Luke, is John the Baptist older than Jesus?
+83: Who wrote the novel "For Whom The Bell Tolls"?
+84: Ray Charles is best known for playing which instrument?
+85: Which of these is the oldest Bruce Lee movie?
+86: Which philosopher is associated with the quote "Cogito ergo sum"?
+87: 18th century-born John Opie was famous in which field?
+88: Which of these is not the name of a space shuttle?
+89: In World War II, what name was given to people who dealt on the black market?
+90: Whad id "Little Britain" star David Walliams succeed in doing for Sport Relief in July 2006?
+91: Which of these US Presidents appeared on the TV series "Laugh-In"?
+92: A one followed by one hundred zeros is known by what name?
+93: Which boxer was famous for striking the gong in the introduction to J. Arthur Rank films?
+94: Which scientific unit is named after an Italian nobleman?
+95: If you planted the seeds of "Quercus robur", what would grow?
+96: Which king was married to Elanor of Aquitaine?
+97: Who, at the age of 12 years and 4 months, became the youngest chess grandmaster?
+98: The Norwegian explorer Roald Amundsen reached the South Pole on 14th of December of which year?
+99: Who invented "The White-Grey-Black Tree"?

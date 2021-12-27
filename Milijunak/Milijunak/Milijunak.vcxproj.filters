@@ -18,160 +18,37 @@
     <ClCompile Include="main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Questions.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Leaderboard.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Joker.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="question0.txt">
+    <ClInclude Include="Questions.h">
       <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="question1.txt">
+    </ClInclude>
+    <ClInclude Include="Errors.h">
       <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="question2.txt">
+    </ClInclude>
+    <ClInclude Include="MagicNumbers.h">
       <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="question3.txt">
+    </ClInclude>
+    <ClInclude Include="Leaderboard.h">
       <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="question4.txt">
+    </ClInclude>
+    <ClInclude Include="Joker.h">
       <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="question5.txt">
+    </ClInclude>
+    <ClInclude Include="Game.h">
       <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="question6.txt">
-      <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="question7.txt">
-      <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="question8.txt">
-      <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="question9.txt">
-      <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="question10.txt">
-      <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="question11.txt">
-      <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="question12.txt">
-      <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="question13.txt">
-      <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="question14.txt">
-      <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="question15.txt">
-      <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="question16.txt">
-      <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="question17.txt">
-      <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="question18.txt">
-      <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="question19.txt">
-      <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="question20.txt">
-      <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="question21.txt">
-      <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="question22.txt">
-      <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="question23.txt">
-      <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="question24.txt">
-      <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="question25.txt">
-      <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="question26.txt">
-      <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="question27.txt">
-      <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="question28.txt">
-      <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="question29.txt">
-      <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="question30.txt">
-      <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="question31.txt">
-      <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="question32.txt">
-      <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="question33.txt">
-      <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="question34.txt">
-      <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="question35.txt">
-      <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="question36.txt">
-      <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="question37.txt">
-      <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="question38.txt">
-      <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="question39.txt">
-      <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="question40.txt">
-      <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="question41.txt">
-      <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="question42.txt">
-      <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="question43.txt">
-      <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="question44.txt">
-      <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="question45.txt">
-      <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="question46.txt">
-      <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="question47.txt">
-      <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="question48.txt">
-      <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="question49.txt">
-      <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="question50.txt">
-      <Filter>Source Files</Filter>
-    </Text>
+    </ClInclude>
   </ItemGroup>
 </Project>
