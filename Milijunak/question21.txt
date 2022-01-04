@@ -1,0 +1,6 @@
+How many pawns are there at the start of a chess game?
+16
+14
+18
+16
+12
