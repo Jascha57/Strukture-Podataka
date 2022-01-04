@@ -1,6 +1,0 @@
-Select All,Odaberi sve or...
-Ctrl+A
-Crtl+X
-Ctrl+B
-Ctrl+V
-Ctrl+A
